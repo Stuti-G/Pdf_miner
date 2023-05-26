@@ -1,0 +1,466 @@
+School of Computer Science Engineering and Technology 
+
+Course: MCA 
+
+ 
+
+ 
+
+Course Code: CMCA505  
+
+Year: 2023  
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Type: Core 
+
+Course Name: OS Essentials 
+
+Semester: Even 
+
+Week 4 Assignment No 4 
+
+ 
+
+1.  There is a home baker who keep records of all the orders in .txt files in different 
+directories without particular order that which order is kept in which directory. 
+Write a C program to help her list all the files and subdirectories in a directory 
+using system calls. 
+ 
+#include <stdio.h> 
+#include <dirent.h> 
+   
+int main(void) 
+{ 
+    struct dirent *de;  // Pointer for directory entry 
+   
+    // opendir() returns a pointer of DIR type.  
+    DIR *dr = opendir("."); 
+   
+    if (dr == NULL)  // opendir returns NULL if couldn't open directory 
+    { 
+        printf("Could not open current directory" ); 
+        return 0; 
+    } 
+   
+    // Refer http://pubs.opengroup.org/onlinepubs/7990989775/xsh/readdir.html 
+    // for readdir() 
+    while ((de = readdir(dr)) != NULL) 
+            printf("%s\n", de->d_name); 
+   
+    closedir(dr);     
+    return 0; 
+} 
+ 
+
+2.  Now, following the above question, baker wants to compare two orders and check if 
+there is any difference between them so that she does not bake the same order twice. 
+Write a C program to compare two files and print line number, and the position 
+
+where difference exists and also print total number of differences (Make use of 
+system calls to complete this task) 
+Sample Input: 
+file1.txt contains 
+This is order for 
+Chocolate cake 
+ 
+file2.txt contains 
+This is order for 
+Vanilla cake 
+ 
+Output : 
+Line Number : 2 
+Error Position : 1 
+Total Errors : 1 
+ 
+Steps to solve this Problem 
+1.  Open two file using File pointer in read only mode. 
+2.  Fetch data of file in two char variable one by one until end of file. 
+3.  If variable encounter new line then increment line number and reset position to 
+
+zero. 
+
+4.  If variables are not equal then increment number of error and print error line as 
+
+well as error index. 
+
+ 
+
+ 
+
+#include<stdio.h> 
+#include<string.h> 
+#include<stdlib.h> 
+   
+void compareFiles(FILE *fp1, FILE *fp2) 
+{ 
+    // fetching character of two file 
+    // in two variable ch1 and ch2 
+    char ch1 = getc(fp1); 
+    char ch2 = getc(fp2); 
+   
+    // error keeps track of number of errors 
+    // pos keeps track of position of errors 
+    // line keeps track of error line 
+    int error = 0, pos = 0, line = 1; 
+   
+
+    // iterate loop till end of file 
+    while (ch1 != EOF && ch2 != EOF) 
+    { 
+        pos++; 
+   
+        // if both variable encounters new 
+        // line then line variable is incremented 
+        // and pos variable is set to 0 
+        if (ch1 == '\n' && ch2 == '\n') 
+        { 
+            line++; 
+            pos = 0; 
+        } 
+   
+        // if fetched data is not equal then 
+        // error is incremented 
+        if (ch1 != ch2) 
+        { 
+            error++; 
+            printf("Line Number : %d \tError" 
+               " Position : %d \n", line, pos); 
+        } 
+   
+        // fetching character until end of file 
+        ch1 = getc(fp1); 
+        ch2 = getc(fp2); 
+    } 
+   
+    printf("Total Errors : %d\t", error); 
+} 
+   
+// Driver code 
+int main() 
+{ 
+    // opening both file in read only mode 
+    FILE *fp1 = fopen("file1.txt", "r"); 
+    FILE *fp2 = fopen("file2.txt", "r"); 
+   
+    if (fp1 == NULL || fp2 == NULL) 
+    { 
+       printf("Error : Files not open"); 
+       exit(0); 
+    } 
+
+   
+    compareFiles(fp1, fp2); 
+   
+    // closing both file 
+    fclose(fp1); 
+    fclose(fp2); 
+    return 0; 
+} 
+ 
+ 
+
+3.  Suppose a faculty wants to collect the student’s data from multiple sheets. Faculty 
+
+has recorded all the data in .txt files. Write a C program to help the faculty by 
+opening all the files with .txt extension in the current directory and merge them all 
+in single .txt file and returns a file descriptor of a new file. (Make use of system calls 
+to complete this work) 
+
+FILE *input, *output; // Two files, input and output 
+char ch; 
+
+// ch is used to assign characters from input file 
+
+// Open directory for reading 
+
+#include<stdio.h> 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+DIR *dr = opendir("."); 
+
+char *txt = ".txt"; // TXT file extension 
+struct dirent *de; 
+
+#include <dirent.h> 
+#include <string.h> 
+ 
+int main(void) { 
+ 
+ 
+ 
+which will then be copied into the output file 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+// If directory doesn't exist, quit 
+if(dr == NULL) { 
+ 
+ 
+} 
+
+printf("Can't open current directory."); 
+return 0; 
+
+// Loop until all files and folders are read/accessed 
+while((de = readdir(dr)) != NULL) { 
+ 
+ 
+
+char *filename = de->d_name; 
+char *ext = strrchr(filename, '.'); 
+
+// Get the filename 
+// Get the extension 
+
+ 
+
+if(!(!ext || ext == filename)){  // Compare extension 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+
+ 
+
+// If a text file, go 
+
+output = fopen("output.txt", "a+"); 
+
+// 
+
+input = fopen(filename, "r");  // Open the 
+
+// Loop through the input 
+
+// Get the 
+
+if(ch == EOF) break;  // Stop if 
+
+// Put current 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+while(1) { 
+
+ch = fgetc(input); 
+
+if(strcmp(ext, txt) == 0) { 
+
+ 
+on 
+ 
+Open output.txt for appending, if doesn't exist, create it. 
+ 
+input file ()'filename') for reading 
+ 
+ 
+file 
+ 
+current character 
+ 
+EOF is found 
+ 
+character from the input file into output.txt 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+output.txt.\n"); 
+ 
+} 
+
+putc(ch, output); 
+
+ 
+ 
+ 
+ 
+} 
+
+ 
+ 
+ 
+} 
+
+return 0; 
+
+ 
+ 
+} 
+
+ 
+
+ 
+
+ 
+
+} 
+
+ 
+
+ 
+
+fclose(input);  // Close input file 
+fclose(output); // Close output file 
+
+closedir(dr); 
+printf("Succesfully copied the contents of all .txt files into 
+
+// Close directory 
+
+
